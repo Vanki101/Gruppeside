@@ -1,4 +1,4 @@
-/*
+
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import client from '../sanityClient';
@@ -9,9 +9,9 @@ function Header() {
 
   useEffect(() => {
     client
-      .fetch(*[_type == "member"] {
+      .fetch(`*[_type == "member"] {
         firstName
-      })
+      }`)
       .then((data) => {
         setMembers(data);
       })
@@ -33,4 +33,4 @@ function Header() {
   );
 }
 
-export default Header;*/
+export default Header;
