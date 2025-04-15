@@ -1,7 +1,6 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import client from '../sanityClient';
+import { client } from '../sanityClient';
 import './Header.css';
 
 function Header() {
@@ -20,8 +19,10 @@ function Header() {
 
   return (
     <header className="header">
-      <div className="logo">TEAM X</div>
-      <nav>
+      <div className="logo-section">
+        <Link to="/" className="logo">TEAM EDAEVE</Link>
+      </div>
+      <nav className="nav-section">
         <Link to="/" className="nav-link">Hjem</Link>
         {members.map((member, index) => (
           <Link key={index} to={"/" + member.firstName} className="nav-link">

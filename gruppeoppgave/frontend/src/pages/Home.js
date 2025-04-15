@@ -1,4 +1,3 @@
-javascriptCopy// frontend/src/pages/Home.js
 import React, { useState, useEffect } from 'react';
 import { client } from '../sanityClient';
 import MemberCard from '../components/MemberCard';
@@ -8,6 +7,7 @@ import './Home.css';
 function Home() {
   const [members, setMembers] = useState([]);
   const [allLogs, setAllLogs] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Hent gruppemedlemmer
@@ -20,9 +20,12 @@ function Home() {
         image
       }`)
       .then((data) => {
+        console.log("Hentet medlemmer:", data);
         setMembers(data);
       })
-      .catch(console.error);
+      .catch(error => {
+        console.error("Feil ved henting av medlemmer:", error);
+      });
 
     // Hent alle loggføringer
     client
@@ -30,16 +33,16 @@ function Home() {
         firstName,
         "logs": logs[] {
           description,
-          date,
           hours,
           _createdAt
         }
       }`)
       .then((data) => {
+        console.log("Hentet logger:", data);
         // Kombiner alle loggene fra alle medlemmer
         const logs = [];
         data.forEach(member => {
-          if (member.logs) {
+          if (member.logs && member.logs.length > 0) {
             member.logs.forEach(log => {
               logs.push({
                 ...log,
@@ -50,21 +53,39 @@ function Home() {
         });
         
         setAllLogs(logs);
+        setLoading(false);
       })
-      .catch(console.error);
+      .catch(error => {
+        console.error("Feil ved henting av logger:", error);
+        setLoading(false);
+      });
   }, []);
+
+  if (loading) {
+    return <div className="loading">Laster innhold...</div>;
+  }
 
   return (
     <div className="home">
       <h1>Gruppemedlemmer</h1>
       <div className="member-grid">
-        {members.map(member => (
-          <MemberCard key={member._id} member={member} />
-        ))}
+        {members.length > 0 ? (
+          members.map(member => (
+            <MemberCard key={member._id} member={member} />
+          ))
+        ) : (
+          <p className="no-members">Ingen gruppemedlemmer funnet. Legg til medlemmer i Sanity Studio.</p>
+        )}
       </div>
       
-      <WorkLog logs={allLogs} />
+      <h2 className="arbeidslogg-title">Arbeidslogg</h2>
+      {allLogs.length > 0 ? (
+        <WorkLog logs={allLogs} />
+      ) : (
+        <p className="no-logs">Ingen loggføringer funnet. Legg til loggføringer for medlemmer i Sanity Studio.</p>
+      )}
     </div>
   );
 }
 
+export default Home;

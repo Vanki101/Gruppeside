@@ -1,4 +1,4 @@
-cssCopy/* frontend/src/components/WorkLog.css */
+/* components/WorkLog.css */
 .work-log {
   margin-top: 2rem;
 }
@@ -6,12 +6,11 @@ cssCopy/* frontend/src/components/WorkLog.css */
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 1rem;
 }
 
 th, td {
   border: 1px solid #ddd;
-  padding: 0.5rem;
+  padding: 0.75rem;
   text-align: left;
 }
 
@@ -23,12 +22,6 @@ tr:nth-child(even) {
   background-color: #f9f9f9;
 }
 
-@media (max-width: 768px) {
-  table {
-    font-size: 0.9rem;
-  }
-  
-  th, td {
-    padding: 0.25rem;
-  }
+tr:hover {
+  background-color: #f0f0f0;
 }
